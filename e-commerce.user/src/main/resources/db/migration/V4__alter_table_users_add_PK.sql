@@ -1,0 +1,3 @@
+ALTER TABLE users
+    ADD CONSTRAINT PK_users_id
+    PRIMARY KEY(PK_id)
