@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 @Entity(name = "users")
 @Table(name = "users")
@@ -14,7 +16,9 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue()
+    @UuidGenerator
+    @Column(name = "PK_id")
     private String id;
 
     private String cpf;
@@ -24,6 +28,8 @@ public class User {
     private String firstName;
 
     private String lastName;
+
+    private UserType userType;
 
     @OneToOne()
     @JoinColumn(name = "fk_wallet_id")

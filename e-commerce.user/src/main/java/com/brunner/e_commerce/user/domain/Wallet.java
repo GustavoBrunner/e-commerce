@@ -15,5 +15,8 @@ public class Wallet {
 
     private BigDecimal balance;
 
+    private BigDecimal maxValue;
+
+    
 
 }
