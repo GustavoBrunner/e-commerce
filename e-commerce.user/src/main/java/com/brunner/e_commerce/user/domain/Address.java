@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 @Entity(name = "address")
 @Table(name = "address")
@@ -12,7 +13,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue()
+    @UuidGenerator
+    @Column(name = "PK_id")
     private String id;
 
     private String city;
