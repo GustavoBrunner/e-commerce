@@ -1,5 +1,6 @@
 package com.brunner.e_commerce.user.domain;
 
+import com.brunner.e_commerce.user.dto.AddressDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,16 @@ import org.hibernate.annotations.UuidGenerator;
 @AllArgsConstructor
 @Data
 public class Address {
+    public Address(AddressDto dto){
+        this.isMain = dto.isMain();
+        this.city = dto.city();
+        this.id = dto.id();
+        this.complement = dto.complement();
+        this.country = dto.county();
+        this.street = dto.street();
+        this.user = dto.user();
+        this.state = dto.state();
+    }
     @Id
     @GeneratedValue()
     @UuidGenerator
