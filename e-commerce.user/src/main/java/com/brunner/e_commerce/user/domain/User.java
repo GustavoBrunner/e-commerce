@@ -1,5 +1,6 @@
 package com.brunner.e_commerce.user.domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,10 @@ public class User {
     private String firstName;
 
     private String lastName;
+
+    private String token;
+
+    private LocalDateTime tokenCreatedAt;
 
     @JoinColumn(name = "user_type")
     private UserType userType;

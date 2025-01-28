@@ -3,6 +3,7 @@ package com.brunner.e_commerce.user.controller;
 import com.brunner.e_commerce.user.dto.UserDTO;
 import com.brunner.e_commerce.user.dto.UserViewDTO;
 import com.brunner.e_commerce.user.services.contracts.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +60,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserViewDTO> create(@RequestBody UserDTO dto){
+    public ResponseEntity<UserViewDTO> create(@RequestBody @Valid UserDTO dto){
         if(dto == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -68,7 +69,7 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
     @PutMapping("/")
-    public ResponseEntity<UserViewDTO> update(@RequestBody UserDTO dto){
+    public ResponseEntity<UserViewDTO> update(@RequestBody @Valid UserDTO dto){
         if(dto == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
