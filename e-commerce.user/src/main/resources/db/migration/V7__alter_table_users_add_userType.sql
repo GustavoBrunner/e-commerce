@@ -1,2 +1,0 @@
-ALTER TABLE users
-    ADD user_type VARCHAR(10) NOT NULL
