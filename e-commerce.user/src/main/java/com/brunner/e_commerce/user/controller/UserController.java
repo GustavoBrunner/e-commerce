@@ -85,7 +85,6 @@ public class UserController {
         UserViewDTO result = service.findById(id);
 
         service.delete(id);
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

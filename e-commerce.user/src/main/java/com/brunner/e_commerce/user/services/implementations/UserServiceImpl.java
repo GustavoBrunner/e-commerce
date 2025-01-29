@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService<UserDTO, UserViewDTO> {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
 
@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService<UserDTO, UserViewDTO> {
         return UserDataMapper.mapEntityToViewDto(user);
     }
 
+
     @Override
     public UserViewDTO create(UserDTO entity) {
         User mappedEntity = UserDataMapper.mapDtoToEntity(entity);
@@ -81,5 +82,14 @@ public class UserServiceImpl implements UserService<UserDTO, UserViewDTO> {
         repository.delete(user);
 
         return UserDataMapper.mapEntityToViewDto(user);
+    }
+
+
+    @Override
+    public UserDTO findDtoById(String id) {
+        var user = repository.findById(id)
+                .orElseThrow(() -> new UserEntityNotFoundException());
+
+        return UserDataMapper.mapEntityToDto(user);
     }
 }

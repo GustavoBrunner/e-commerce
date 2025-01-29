@@ -18,9 +18,9 @@ public class UserDataMapper {
     public static UserDTO mapEntityToDto(User entity){
         return new UserDTO(entity.getId(),entity.getEmail(), entity.getCpf(),
                 entity.getPassword(),entity.getFirstName(), entity.getLastName(),
-                entity.getUserType());
+                entity.getMainAddress(), entity.getUserType());
     }
-    public static UserViewDTO userViewDtoToDto(UserDTO entity){
+    public static UserViewDTO userDtoToViewDto(UserDTO entity){
         return new UserViewDTO(entity.email(), entity.cpf(),
                 entity.firstName(), entity.lastName(),
                 entity.userType());
