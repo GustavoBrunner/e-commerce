@@ -1,6 +1,7 @@
 package com.brunner.e_commerce.user.services.implementations;
 
 import com.brunner.e_commerce.user.domain.Address;
+import com.brunner.e_commerce.user.domain.User;
 import com.brunner.e_commerce.user.domain.exceptions.AddressEntityNotFoundException;
 import com.brunner.e_commerce.user.dto.AddressDto;
 import com.brunner.e_commerce.user.dto.AddressViewDto;
@@ -24,7 +25,7 @@ public class AddressServiceImpl implements AddressService {
         this.repository = repository;
         this.userService = userService;
     }
-
+    //todo: métodos de filtragem por cidade, estado e país
     @Override
     public List<AddressViewDto> findAllByUserId(String id) {
         List<Address> addresses = repository.getAllAddressByUserId(id);
@@ -82,7 +83,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     private void getAndUpdateUser(String id, Address newAddress){
-        var user = userService.findDtoById(newAddress.getUser().getId());
+        var user = userService.findDtoById(id);
         UserDTO updatedUser = UserDTO.builder()
                 .id(user.id())
                 .cpf(user.cpf())
@@ -92,7 +93,8 @@ public class AddressServiceImpl implements AddressService {
                 .lastName(user.lastName())
                 .mainAddress(newAddress)
                 .userType(user.userType())
-                .build() ;
+                .build();
         userService.update(updatedUser);
     }
+
 }

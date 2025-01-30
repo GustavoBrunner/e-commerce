@@ -6,5 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface AddressRepository extends JpaRepository<Address, String> {
-    public List<Address> getAllAddressByUserId(String userId);
+    List<Address> getAllAddressByUserId(String userId);
+    List<Address> getAllAddressByCity(String cityName);
+    List<Address> getAllAddressByState(String stateName);
+    List<Address> getAllAddressByCounty(String countryName);
+
 }

@@ -14,10 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    private final UserService<UserDTO, UserViewDTO> service;
+    private final UserService service;
 
     @Autowired
-    public UserController(UserService<UserDTO, UserViewDTO> service) {
+    public UserController(UserService service) {
         this.service = service;
     }
 
@@ -68,9 +68,9 @@ public class UserController {
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
-    @PutMapping("/")
-    public ResponseEntity<UserViewDTO> update(@RequestBody @Valid UserDTO dto){
-        if(dto == null){
+    @PutMapping("/{id}")
+    public ResponseEntity<UserViewDTO> update(@PathVariable String id,@RequestBody @Valid UserDTO dto){
+        if(dto == null || id.isEmpty()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         var result = service.update(dto);

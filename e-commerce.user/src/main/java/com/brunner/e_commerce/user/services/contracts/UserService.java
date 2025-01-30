@@ -8,4 +8,5 @@ public interface UserService extends GenericService<UserDTO, UserViewDTO>{
     public UserViewDTO findByEmail(String email);
     public UserViewDTO findByCpf(String cpf);
     public UserDTO findDtoById(String id);
+
 }
