@@ -25,14 +25,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewDTO findById(String id) {
+    public UserViewDTO findById(String id) throws UserEntityNotFoundException {
         User entity = repository.findById(id)
                 .orElseThrow(UserEntityNotFoundException::new);
         return UserDataMapper.mapEntityToViewDto(entity);
     }
 
     @Override
-    public List<UserViewDTO> findAll() {
+    public List<UserViewDTO> findAll() throws UserEntityNotFoundException {
         List<User> users = repository.findAll();
         if (users.isEmpty()){
             throw new UserEntityNotFoundException();
@@ -41,14 +41,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewDTO findByEmail(String email) {
+    public UserViewDTO findByEmail(String email) throws UserEntityNotFoundException {
         User user = repository.findUserByEmail(email).orElseThrow(() ->
                 new UserEntityNotFoundException("Entity not found with given email"));
         return UserDataMapper.mapEntityToViewDto(user);
     }
 
     @Override
-    public UserViewDTO findByCpf(String cpf) {
+    public UserViewDTO findByCpf(String cpf) throws UserEntityNotFoundException {
         User user = repository.findUserByCpf(cpf)
                 .orElseThrow(() -> new UserEntityNotFoundException("Entity not found with given cpf"));
         return UserDataMapper.mapEntityToViewDto(user);
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewDTO update(UserDTO entity) {
+    public UserViewDTO update(UserDTO entity) throws UserEntityNotFoundException {
         User user = repository.findById(entity.id())
                 .orElseThrow(() -> new UserEntityNotFoundException("Usuário não encontrado!"));
         //todo: cpf and email validations
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserViewDTO delete(String id) {
+    public UserViewDTO delete(String id) throws UserEntityNotFoundException {
         User user = repository.findById(id)
                 .orElseThrow(() -> new UserEntityNotFoundException("Usuário não encontrado!"));
 
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDTO findDtoById(String id) {
+    public UserDTO findDtoById(String id) throws UserEntityNotFoundException {
         var user = repository.findById(id)
                 .orElseThrow(() -> new UserEntityNotFoundException());
 

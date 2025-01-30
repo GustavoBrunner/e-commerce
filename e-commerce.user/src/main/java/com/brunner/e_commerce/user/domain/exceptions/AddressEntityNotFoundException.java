@@ -1,8 +1,10 @@
 package com.brunner.e_commerce.user.domain.exceptions;
 
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-public class AddressEntityNotFoundException extends EntityNotFoundException {
+@RestControllerAdvice
+public class AddressEntityNotFoundException extends Exception {
+
     public AddressEntityNotFoundException(){
         super("Entidade não encontrada no banco de dados");
     }

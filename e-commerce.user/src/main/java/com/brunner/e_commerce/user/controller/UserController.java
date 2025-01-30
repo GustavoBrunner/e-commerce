@@ -1,5 +1,7 @@
 package com.brunner.e_commerce.user.controller;
 
+import com.brunner.e_commerce.user.domain.exceptions.AddressEntityNotFoundException;
+import com.brunner.e_commerce.user.domain.exceptions.UserEntityNotFoundException;
 import com.brunner.e_commerce.user.dto.UserDTO;
 import com.brunner.e_commerce.user.dto.UserViewDTO;
 import com.brunner.e_commerce.user.services.contracts.UserService;
@@ -22,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<UserViewDTO>> getAll(){
+    public ResponseEntity<List<UserViewDTO>> getAll() throws AddressEntityNotFoundException, UserEntityNotFoundException {
         List<UserViewDTO> users = service.findAll();
         if(users.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -30,7 +32,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<UserViewDTO> getById(@PathVariable String id){
+    public ResponseEntity<UserViewDTO> getById(@PathVariable String id) throws UserEntityNotFoundException {
         if(id.isEmpty()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -40,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<UserViewDTO> getByEmail(@PathVariable("email") String email){
+    public ResponseEntity<UserViewDTO> getByEmail(@PathVariable("email") String email) throws UserEntityNotFoundException {
         UserViewDTO user = service.findByEmail(email);
         if(user == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -50,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<UserViewDTO> getByCpf(@PathVariable("cpf") String cpf){
+    public ResponseEntity<UserViewDTO> getByCpf(@PathVariable("cpf") String cpf) throws UserEntityNotFoundException {
         UserViewDTO user = service.findByCpf(cpf);
         if(user == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -60,7 +62,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserViewDTO> create(@RequestBody @Valid UserDTO dto){
+    public ResponseEntity<UserViewDTO> create(@RequestBody @Valid UserDTO dto) throws AddressEntityNotFoundException, UserEntityNotFoundException {
         if(dto == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -78,7 +80,7 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<UserViewDTO> delete(@PathVariable String id){
+    public ResponseEntity<UserViewDTO> delete(@PathVariable String id) throws AddressEntityNotFoundException, UserEntityNotFoundException {
         if(id.isEmpty()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
