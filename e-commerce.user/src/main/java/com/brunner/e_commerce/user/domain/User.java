@@ -34,6 +34,7 @@ public class User {
 
     private String token;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime tokenCreatedAt;
 
     @JoinColumn(name = "user_type")

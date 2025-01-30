@@ -2,6 +2,7 @@ package com.brunner.e_commerce.user.services.implementations;
 
 import com.brunner.e_commerce.user.domain.Address;
 import com.brunner.e_commerce.user.domain.exceptions.AddressEntityNotFoundException;
+import com.brunner.e_commerce.user.domain.exceptions.UserEntityNotFoundException;
 import com.brunner.e_commerce.user.dto.AddressDto;
 import com.brunner.e_commerce.user.dto.AddressViewDto;
 import com.brunner.e_commerce.user.dto.UserDTO;
@@ -26,7 +27,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<AddressViewDto> findAllByUserId(String id) {
+    public List<AddressViewDto> findAllByUserId(String id) throws AddressEntityNotFoundException {
         List<Address> addresses = repository.getAllAddressByUserId(id);
         if(addresses.isEmpty()){
             throw new AddressEntityNotFoundException("Nenhum endereço encontrado para esse usuário!");
@@ -36,7 +37,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<AddressViewDto> findAll() {
+    public List<AddressViewDto> findAll() throws AddressEntityNotFoundException {
         List<Address> addresses = repository.findAll();
         if(addresses.isEmpty()){
             throw new AddressEntityNotFoundException("Nenhum endereço encontrado no sistema");
@@ -46,7 +47,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressViewDto create(AddressDto entity) {
+    public AddressViewDto create(AddressDto entity) throws AddressEntityNotFoundException, UserEntityNotFoundException {
         Address address = AddressDataMapper.mapDtoToEntity(entity);
 
         if(address.isMain()){
@@ -57,7 +58,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressViewDto update(AddressDto entity) {
+    public AddressViewDto update(AddressDto entity) throws AddressEntityNotFoundException, UserEntityNotFoundException {
         Address address = repository.findById(entity.id())
                 .orElseThrow(() -> new AddressEntityNotFoundException());
         address = AddressDataMapper.mapDtoToEntity(entity);
@@ -70,7 +71,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressViewDto delete(String id) {
+    public AddressViewDto delete(String id) throws AddressEntityNotFoundException, UserEntityNotFoundException {
         Address address = repository.findById(id)
                 .orElseThrow(() -> new AddressEntityNotFoundException());
 
@@ -81,7 +82,7 @@ public class AddressServiceImpl implements AddressService {
         return AddressDataMapper.mapEntityToViewDto(address);
     }
 
-    private void getAndUpdateUser(String id, Address newAddress){
+    private void getAndUpdateUser(String id, Address newAddress) throws AddressEntityNotFoundException, UserEntityNotFoundException {
         var user = userService.findDtoById(newAddress.getUser().getId());
         UserDTO updatedUser = UserDTO.builder()
                 .id(user.id())

@@ -14,7 +14,7 @@ public record UserDTO(
         @NotBlank @Email String email,
         @NotBlank String firstName,
         @NotBlank String lastName,
-        @NotBlank Address mainAddress,
-        @NotBlank UserType userType
+        Address mainAddress,
+        UserType userType
 ) {
 }

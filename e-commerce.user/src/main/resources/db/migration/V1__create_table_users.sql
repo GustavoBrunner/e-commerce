@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS users(
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    user_type VARCHAR(10) NOT NULL
+    user_type VARCHAR(10) NOT NULL,
+    token VARCHAR(50) DEFAULT(NULL),
+    token_created_at TIMESTAMP
 
 
 );
