@@ -70,9 +70,9 @@ public class UserController {
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
-    @PutMapping("/")
-    public ResponseEntity<UserViewDTO> update(@RequestBody @Valid UserDTO dto) throws AddressEntityNotFoundException, UserEntityNotFoundException {
-        if(dto == null){
+    @PutMapping("/{id}")
+    public ResponseEntity<UserViewDTO> update(@PathVariable String id,@RequestBody @Valid UserDTO dto){
+        if(dto == null || id.isEmpty()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         var result = service.update(dto);
