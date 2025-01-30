@@ -59,6 +59,7 @@ public class UserServiceImpl implements UserService {
     public UserViewDTO create(UserDTO entity) {
         User mappedEntity = UserDataMapper.mapDtoToEntity(entity);
         //todo: cpf and email validations
+        //todo: call of wallet service to create a new wallet passing user data
         var result = repository.saveAndFlush(mappedEntity);
 
         return UserDataMapper.mapEntityToViewDto(result);
@@ -91,5 +92,15 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserEntityNotFoundException());
 
         return UserDataMapper.mapEntityToDto(user);
+    }
+
+    @Override
+    public User findEntityById(String id) throws UserEntityNotFoundException {
+        return repository.findById(id).orElseThrow(UserEntityNotFoundException::new);
+    }
+
+    @Override
+    public void saveEntity(User newEntity) {
+        repository.saveAndFlush(newEntity);
     }
 }

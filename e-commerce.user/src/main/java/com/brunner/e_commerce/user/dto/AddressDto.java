@@ -8,11 +8,11 @@ import lombok.Builder;
 public record AddressDto(
         String id,
         @NotBlank String city,
-        @NotBlank String county,
+        @NotBlank String country,
         @NotBlank String state,
         @NotBlank String street,
         @NotBlank String complement,
-        @NotBlank boolean isMain,
-        @NotBlank User user
+        boolean isMain,
+        User user
 ) {
 }

@@ -40,11 +40,9 @@ public class User {
     @JoinColumn(name = "user_type")
     private UserType userType;
 
-    @OneToOne()
-    @JoinColumn(name = "fk_wallet_id")
-    private Wallet wallet;
 
-    @OneToOne
+
+    @OneToOne//(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_main_address_id")
     private Address mainAddress;
 

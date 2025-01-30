@@ -1,13 +1,13 @@
 package com.brunner.e_commerce.user.services.implementations;
 
 import com.brunner.e_commerce.user.domain.Address;
-import com.brunner.e_commerce.user.domain.User;
 import com.brunner.e_commerce.user.domain.exceptions.AddressEntityNotFoundException;
 import com.brunner.e_commerce.user.domain.exceptions.UserEntityNotFoundException;
 import com.brunner.e_commerce.user.dto.AddressDto;
 import com.brunner.e_commerce.user.dto.AddressViewDto;
-import com.brunner.e_commerce.user.dto.UserDTO;
 import com.brunner.e_commerce.user.repositories.AddressRepository;
+
+
 import com.brunner.e_commerce.user.services.contracts.AddressService;
 import com.brunner.e_commerce.user.services.contracts.UserService;
 import com.brunner.e_commerce.user.util.mapper.AddressDataMapper;
@@ -51,10 +51,10 @@ public class AddressServiceImpl implements AddressService {
     public AddressViewDto create(AddressDto entity) throws AddressEntityNotFoundException, UserEntityNotFoundException {
         Address address = AddressDataMapper.mapDtoToEntity(entity);
 
+        repository.saveAndFlush(address);
         if(address.isMain()){
             getAndUpdateUser(address.getUser().getId(), address);
         }
-        repository.saveAndFlush(address);
         return AddressDataMapper.mapEntityToViewDto(address);
     }
 
@@ -64,6 +64,7 @@ public class AddressServiceImpl implements AddressService {
                 .orElseThrow(() -> new AddressEntityNotFoundException());
         address = AddressDataMapper.mapDtoToEntity(entity);
 
+        repository.saveAndFlush(address);
         if(address.isMain()){
             getAndUpdateUser(address.getUser().getId(), address);
         }
@@ -77,25 +78,24 @@ public class AddressServiceImpl implements AddressService {
                 .orElseThrow(() -> new AddressEntityNotFoundException());
 
         if(address.isMain()){
-            getAndUpdateUser(address.getUser().getId(), null);
+            getAndUpdateUser(address.getUser().getId());
         }
+        repository.delete(address);
 
         return AddressDataMapper.mapEntityToViewDto(address);
     }
 
+    private void getAndUpdateUser(String id) throws AddressEntityNotFoundException, UserEntityNotFoundException {
+        var user = userService.findEntityById(id);
+        user.setMainAddress(null);
+
+        userService.saveEntity(user);
+    }
     private void getAndUpdateUser(String id, Address newAddress) throws AddressEntityNotFoundException, UserEntityNotFoundException {
-        var user = userService.findDtoById(newAddress.getUser().getId());
-        UserDTO updatedUser = UserDTO.builder()
-                .id(user.id())
-                .cpf(user.cpf())
-                .password(user.password())
-                .email(user.email())
-                .firstName(user.firstName())
-                .lastName(user.lastName())
-                .mainAddress(newAddress)
-                .userType(user.userType())
-                .build();
-        userService.update(updatedUser);
+        var user = userService.findEntityById(id);
+        user.setMainAddress(newAddress);
+
+        userService.saveEntity(user);
     }
 
 }

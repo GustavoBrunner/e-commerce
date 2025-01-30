@@ -18,7 +18,7 @@ public class Address {
         this.city = dto.city();
         this.id = dto.id();
         this.complement = dto.complement();
-        this.country = dto.county();
+        this.country = dto.country();
         this.street = dto.street();
         this.user = dto.user();
         this.state = dto.state();

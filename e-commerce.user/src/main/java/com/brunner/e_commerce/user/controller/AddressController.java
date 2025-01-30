@@ -1,5 +1,7 @@
 package com.brunner.e_commerce.user.controller;
 
+import com.brunner.e_commerce.user.domain.exceptions.AddressEntityNotFoundException;
+import com.brunner.e_commerce.user.domain.exceptions.UserEntityNotFoundException;
 import com.brunner.e_commerce.user.dto.AddressDto;
 import com.brunner.e_commerce.user.dto.AddressViewDto;
 import com.brunner.e_commerce.user.services.contracts.AddressService;
@@ -18,12 +20,12 @@ public class AddressController {
     private final AddressService service;
 
     @Autowired
-    public AddressController(AddressService service, UserService userService) {
+    public AddressController(AddressService service) {
         this.service = service;
     }
     //todo: endpoint for filtering city, country and states
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<AddressViewDto>> getAllUserAddresses(@PathVariable String userId){
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<AddressViewDto>> getAllUserAddresses(@PathVariable String userId) throws AddressEntityNotFoundException {
         if(userId.isEmpty()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -38,7 +40,7 @@ public class AddressController {
 
 
     @PostMapping("/")
-    public ResponseEntity<AddressViewDto> create(@RequestBody @Valid AddressDto dto){
+    public ResponseEntity<AddressViewDto> create(@RequestBody @Valid AddressDto dto) throws UserEntityNotFoundException, AddressEntityNotFoundException {
         if(dto == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -47,7 +49,7 @@ public class AddressController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<AddressViewDto> update(@PathVariable String id, @RequestBody AddressDto entity){
+    public ResponseEntity<AddressViewDto> update(@PathVariable String id, @RequestBody AddressDto entity) throws UserEntityNotFoundException, AddressEntityNotFoundException {
         if(id.isEmpty() || entity == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -57,7 +59,7 @@ public class AddressController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AddressViewDto> delete(@PathVariable String id){
+    public ResponseEntity<AddressViewDto> delete(@PathVariable String id) throws UserEntityNotFoundException, AddressEntityNotFoundException {
         if(id.isEmpty()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

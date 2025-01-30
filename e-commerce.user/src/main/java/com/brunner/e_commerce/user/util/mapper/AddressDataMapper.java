@@ -12,6 +12,7 @@ public class AddressDataMapper {
         return AddressViewDto.builder()
                 .city(address.getCity())
                 .state(address.getState())
+                .street(address.getStreet())
                 .complement(address.getComplement())
                 .country(address.getCountry())
                 .isMain(address.isMain())
