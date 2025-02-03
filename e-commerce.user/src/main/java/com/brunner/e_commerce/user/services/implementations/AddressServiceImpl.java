@@ -68,7 +68,7 @@ public class AddressServiceImpl implements AddressService {
         if(address.isMain()){
             getAndUpdateUser(address.getUser().getId(), address);
         }
-
+        //todo: update actual main address bool to false
         return AddressDataMapper.mapEntityToViewDto(address);
     }
 
@@ -81,6 +81,7 @@ public class AddressServiceImpl implements AddressService {
             getAndUpdateUser(address.getUser().getId());
         }
         repository.delete(address);
+        //todo: update actual main address bool to false
 
         return AddressDataMapper.mapEntityToViewDto(address);
     }
